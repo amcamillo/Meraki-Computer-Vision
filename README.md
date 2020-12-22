@@ -49,7 +49,7 @@ The solution has been tested against the following:
     $source venv/bin/activate
 
 ### Clone the Repo:
-    $git clone https://github.com/andersm9/Meraki-Computer-Vision
+    $git clone https://github.com/mackalien/Meraki-Computer-Vision
 
     $cd Meraki-Computer-Vision
 
@@ -224,3 +224,5 @@ $python3 meraki\_cv.py
 You should now see (in the NodeRed GUI) a graphical readout of luminosity, people counting by Zone, AWS Rekognition emotion/gender/age, object detection, text detection and a snapshot.
 
 ![Diagram](Files/Result.png)
+
+Original Diagram and code from @Andersm9
