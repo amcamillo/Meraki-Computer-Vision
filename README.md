@@ -162,9 +162,9 @@ d) Navigate to the Node-RED configuration page at:
 
 http://**yourserver**:1880
 
- e) Install Mosca MQTT Broker
+e) Install *AEDES* MQTT Broker
 
-Start- Manage Palette -  Install - ; node-red-contrib-mqtt-broker
+Start- Manage Palette -  Install - ; node-red-contrib-aedes
 
 f) Install NodeRed Dashboard
 
@@ -173,8 +173,6 @@ Start - Manage Palette -  Install -  node-red-dashboard
 g) Import the following flow: (start - import - clipboard - select a file to import)
 
 [https://github.com/andersm9/Meraki\_NodeRED/blob/master/Flow](https://github.com/andersm9/Meraki_NodeRED/blob/master/Flow)
-
-                **Update this when ready**
 
 h) Press Import;
 
