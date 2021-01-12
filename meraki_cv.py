@@ -235,5 +235,5 @@ if __name__ == '__main__':
     #when an MQTT message is received:
     client.on_message = on_message
     #specify the MQTT broker here
-    client.connect(SERVER_IP, 1883, 300)
+    client.connect('127.0.0.1', 1883, 300)
     client.loop_forever()
