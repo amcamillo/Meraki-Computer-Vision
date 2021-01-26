@@ -38,5 +38,3 @@ I will share the guide through different medium later on, possibly posting some 
 https://andrecamillo.medium.com/
 
 ![Diagram](Files/result.png)
-
-Original Diagram and code from @Andersm9
