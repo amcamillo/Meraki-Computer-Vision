@@ -16,7 +16,8 @@ import boto3
 import paho.mqtt.client as mqtt
 
 
-def get_meraki_snapshots(api_key, net_id, time=None):
+def get_meraki_snapshots(session, api_key, net_id, time=None):
+    #print('getmerakisnapshots')
     """Get devices of network"""
     headers = {
         'X-Cisco-Meraki-API-Key': api_key,
@@ -31,7 +32,7 @@ def get_meraki_snapshots(api_key, net_id, time=None):
     # Assemble return data
     for camera in cameras:
         #filter for serial number provided
-        if camera["serial"] == MV_SERIAL:
+        if (camera["serial"] == MV_SERIAL):
             # Get snapshot link
             if time:
                 headers['Content-Type'] = 'application/json'
@@ -51,6 +52,7 @@ def get_meraki_snapshots(api_key, net_id, time=None):
     return snapshot_url
 
 def gather_credentials():
+    #print('gatherCreds')
     """Gather Meraki credentials"""
     conf_par = configparser.ConfigParser()
     try:
@@ -59,6 +61,7 @@ def gather_credentials():
         net_id = conf_par.get('meraki', 'network')
         mv_serial = conf_par.get('sense', 'serial')
         server_ip = conf_par.get('server', 'ip')
+        #print('SERVER_IP= ',server_ip)
     except:
         print('Missing credentials or input file!')
         sys.exit(2)
@@ -109,6 +112,7 @@ def detect_moderation(image, max_labels=10, min_confidence=90):
 
 #get text
 def detect_text_detections(image):
+    #print('detecttext')
     rekognition = boto3.client("rekognition")
     resp = requests.get(image)
     imgbytes = resp.content
@@ -118,33 +122,38 @@ def detect_text_detections(image):
     return text_response['TextDetections']
 
 def on_connect(mq_client, userdata, flags, result_code):
+    #print('onconnect')
     """The callback for when the client receives a CONNACK response from the server"""
-    print(f'Connected with result code {result_code}')
+    print(f'Connected with result code {result_code} - 0 = successful')
     serial = userdata['MV_SERIAL']
     # Subscribing in on_connect() means that if we lose the connection and
     # reconnect then subscriptions will be renewed.
     mq_client.subscribe(f'/merakimv/{serial}/0')
     #client.subscribe(f'/merakimv/{serial}/light')
 
-
 def on_message(client, userdata, msg):
+    #print('onmessage')
     """When a PUBLISH message is received from the server, get a
     URL to analyse"""
     #triggers image analysis when incoming MQTT data is detected
     analyze()
 
 def analyze():
+    #print('analyze')
     """periodially takes snap URL from Meraki, sends to AWS rekognition"""
-    flag = True
-    if flag:
+    if True:
         print("Request Snapshot URL")
         #get the URL of a snapshot from our camera
-        snapshot_url = get_meraki_snapshots(API_KEY, NET_ID, None)
+        snapshot_url = get_meraki_snapshots(session, API_KEY, NET_ID, None)
+        print('snapshot url = ',snapshot_url)
         #assume the snapshot is not yet available for download:
+
+
         resp_txt = "404"
-        while "404" in resp_txt:
+        while ("404" in resp_txt) == True:
             #continually attempt to access snapshot URL
             rekresp, resp_txt = send_snap_to_aws(snapshot_url)
+
 
         #once the URL is available (resp_txt != 404), send to
         #AWS Rekognition and print results to stdout
@@ -172,7 +181,7 @@ def analyze():
         obj = 0
         objects_detected = detect_labels(snapshot_url)
         quantity_objects = len(objects_detected)
-        print("objects_detected recieved")
+        print("objects_detected received")
         #Print to stdout all label names and confidence
         for label in objects_detected:
             #round "Confidence" to three decimal places
@@ -217,6 +226,7 @@ def analyze():
             quantity_text_detections  = quantity_text_detections  + 1
             client.publish(TextDetection, text_entry)
         print("end of text detected")
+
 if __name__ == '__main__':
 
     (API_KEY, NET_ID, MV_SERIAL, SERVER_IP) = gather_credentials()
@@ -231,9 +241,12 @@ if __name__ == '__main__':
     client = mqtt.Client()
     client.user_data_set(USER_DATA)
     #on connection to a MQTT broker:
+    #print("Attempting connection to MQTT Broker")
     client.on_connect = on_connect
     #when an MQTT message is received:
     client.on_message = on_message
     #specify the MQTT broker here
-    client.connect(SERVER_IP, 1883, 300)
+    client.connect(SERVER_IP, 1883, 100)
     client.loop_forever()
+    
+    
