@@ -37,6 +37,6 @@ I've created an In-depth Setup guide, including details on how to setup:
 I will share the guide through different medium later on, possibly posting some details on my medium account:
 https://andrecamillo.medium.com/
 
-![Diagram](Files/Result.png)
+![Diagram](Files/result.png)
 
 Original Diagram and code from @Andersm9
