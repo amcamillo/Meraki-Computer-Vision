@@ -34,7 +34,25 @@ I've created an In-depth Setup guide, including details on how to setup:
 - Setting up Node-RED with MQTT
 - Setting up the Python script in the host
 
-I will share the guide through different medium later on, possibly posting some details on my medium account:
+I will share the guide through different medium later on, possibly posting some details on my medium profile:
 https://andrecamillo.medium.com/
 
 ![Diagram](Files/result.png)
+
+## Version 2, june 2021
+
+I've improved the code adding a few more capabilities including:
+
+Frontend
+- Added more tabs to Node-red, highlighting "Audience Analytics" with:
+  - Audience Age estimatives
+  - Audience Reaction in a Wordcloud
+- Added "About" tab in frontend to highlight Who is demoing
+- Authentication to Node-red Admin and UI
+
+Backend
+- Integration with 3rd party service for the wordcloud creation
+- basic algorithm to count reactions and send them to wordcloud
+
+Will add v2 in the list of files and will create a document about it and share on medium:
+https://andrecamillo.medium.com/
