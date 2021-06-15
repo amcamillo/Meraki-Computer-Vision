@@ -8,7 +8,7 @@ Here's a simple diagram of what I worked on:
 
 ![Simple Diagram](Files/diagram.png)
 
-And here's the detailed flow view:
+And here's the detailed flow view (From the OG Project where I forked this from, please refer to the "Fork" section for details):
 
 ![Diagram](Files/Diagram.png)
 
